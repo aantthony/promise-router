@@ -14,6 +14,8 @@ The `router` object can be passed to an ordinary `express.use('/path', router)` 
 
 It also supports `.param()` and `.use()`, with the only other difference being that error handlers are now added using `.error()` instead of `.use()`. This was done because it depends on `fn.length` which can be counter-intuitive sometimes.
 
+To simulate `next('route')`, simply `throw 'route'`.
+
 ## Usage
 
 ```js

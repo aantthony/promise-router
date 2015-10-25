@@ -6,6 +6,7 @@ var ExpressRouter = express.Router
 ExpressRouter.prototype = ExpressRouter
 
 var methods = require('methods')
+var slice = Array.prototype.slice
 
 var PROTO = '__proto__'
 
@@ -28,13 +29,24 @@ function Router () {
 Router.prototype[PROTO] = ExpressRouter
 
 function promisify (handler, shouldRespond) {
+  if (typeof handler.handler === 'function') {
+    // it's already middleware:
+    return handler
+  }
   return function (req, res, next) {
     function onFulfilled (responseBody) {
       if (shouldRespond) return res.json(responseBody)
       next()
     }
 
-    var result = handler(req, res)
+    var result
+    try {
+      result = handler(req, res)
+    } catch (ex) {
+      if (ex === 'route') return next('route')
+      return next(ex)
+    }
+
     if (result && typeof result.then === 'function') {
       defer(result.then(onFulfilled, next))
     } else {
@@ -45,10 +57,13 @@ function promisify (handler, shouldRespond) {
 
 // create Router#VERB functions
 methods.concat('all').forEach(function (method) {
-  Router.prototype[method] = function (path, handler) {
+  Router.prototype[method] = function (path) {
     var route = ExpressRouter.route.call(this, path)
-    var middleware = promisify(handler, true)
-    route[method].apply(route, [middleware]) // eslint-disable-line no-useless-call
+    var handlers = slice.call(arguments, 1)
+    var middlewareHandlers = handlers.map(function (handler) {
+      return promisify(handler, true)
+    })
+    route[method].apply(route, middlewareHandlers)
     return this
   }
 })
@@ -73,9 +88,9 @@ Router.prototype.param = function (paramName, handler) {
   return ExpressRouter.param.call(this, paramName, middleware)
 }
 
-Router.prototype.use = function (arg1, arg2) {
+Router.prototype.use = function (arg1) {
   if (typeof arg1 === 'string') {
-    return ExpressRouter.use.call(this, arg1, arg2)
+    return ExpressRouter.use.apply(this, arguments)
   }
   var middleware = promisify(arg1, false)
   return ExpressRouter.use.call(this, middleware)
