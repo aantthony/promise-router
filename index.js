@@ -68,7 +68,15 @@ Router.prototype.error = function (handler) {
   return ExpressRouter.use.call(this, middleware)
 }
 
-Router.prototype.use = function (handler) {
+Router.prototype.param = function (paramName, handler) {
   var middleware = promisify(handler, false)
+  return ExpressRouter.param.call(this, paramName, middleware)
+}
+
+Router.prototype.use = function (arg1, arg2) {
+  if (typeof arg1 === 'string') {
+    return ExpressRouter.use.call(this, arg1, arg2)
+  }
+  var middleware = promisify(arg1, false)
   return ExpressRouter.use.call(this, middleware)
 }

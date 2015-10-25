@@ -1,5 +1,5 @@
 {
-  "name": "promise-router",
+  "name": "promised-router",
   "version": "1.0.0",
   "description": "Express Router with promises",
   "main": "index.js",
@@ -26,5 +26,13 @@
     "standard": "^5.3.1",
     "supertest": "^1.1.0"
   },
-  "standard": {}
+  "standard": {},
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "express",
+    "promises",
+    "router"
+  ]
 }
