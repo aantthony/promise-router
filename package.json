@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aantthony/promise-router.git"
+    "url": "git+https://github.com/aantthony/promised-router.git"
   },
   "author": "Anthony Foster",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aantthony/promise-router/issues"
+    "url": "https://github.com/aantthony/promised-router/issues"
   },
-  "homepage": "https://github.com/aantthony/promise-router#readme",
+  "homepage": "https://github.com/aantthony/promised-router#readme",
   "dependencies": {
     "methods": "^1.1.1"
   },
