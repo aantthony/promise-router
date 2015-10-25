@@ -1,0 +1,30 @@
+{
+  "name": "promise-router",
+  "version": "1.0.0",
+  "description": "Express Router with promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aantthony/promise-router.git"
+  },
+  "author": "Anthony Foster",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aantthony/promise-router/issues"
+  },
+  "homepage": "https://github.com/aantthony/promise-router#readme",
+  "dependencies": {
+    "methods": "^1.1.1"
+  },
+  "devDependencies": {
+    "es6-promise": "^3.0.2",
+    "express": "^4.13.3",
+    "mocha": "^2.3.3",
+    "standard": "^5.3.1",
+    "supertest": "^1.1.0"
+  },
+  "standard": {}
+}
