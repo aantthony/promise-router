@@ -1,5 +1,10 @@
 # promised-router
 
+
+[![NPM Version](https://img.shields.io/npm/v/promised-router.svg)](https://www.npmjs.com/package/promised-router)
+[![License](https://img.shields.io/npm/l/promised-router.svg)](https://www.npmjs.com/package/promised-router)
+[![Build Status](https://img.shields.io/travis/aantthony/promised-router/master.svg)](https://travis-ci.org/aantthony/promised-router)
+
 Express Router with promises.
 
 Allows you to define express routes that return promises instead of calling `next()`.
