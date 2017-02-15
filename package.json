@@ -17,14 +17,14 @@
   },
   "homepage": "https://github.com/aantthony/promised-router#readme",
   "dependencies": {
-    "methods": "^1.1.1"
+    "methods": "^1.1.2"
   },
   "devDependencies": {
-    "es6-promise": "^3.0.2",
-    "express": "^4.13.3",
-    "mocha": "^2.3.3",
-    "standard": "^5.3.1",
-    "supertest": "^1.1.0"
+    "es6-promise": "^4.0.5",
+    "express": "^4.14.1",
+    "mocha": "^3.2.0",
+    "standard": "^8.6.0",
+    "supertest": "^3.0.0"
   },
   "standard": {},
   "directories": {
