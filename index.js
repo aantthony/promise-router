@@ -10,6 +10,8 @@ var slice = Array.prototype.slice
 
 var PROTO = '__proto__'
 
+var HEADER_CONTENT_TYPE = 'Content-Type'
+
 function defer (promise) {
   promise.then(null, function (err) {
     setImmediate(function () {
@@ -17,6 +19,13 @@ function defer (promise) {
     })
   })
 }
+
+function Response (contentType, body) {
+  this.contentType = contentType
+  this.body = body
+}
+
+Router.Response = Response
 
 module.exports = Router
 
@@ -34,8 +43,15 @@ function promisify (handler, shouldRespond) {
     return handler
   }
   return function (req, res, next) {
-    function onFulfilled (responseBody) {
-      if (shouldRespond) return res.json(responseBody)
+    function onFulfilled (result) {
+      if (result instanceof Response) {
+        if (!res.get(HEADER_CONTENT_TYPE)) {
+          res.set(HEADER_CONTENT_TYPE, res.contentType)
+        }
+        return res.send(result.body)
+      } else if (shouldRespond) {
+        return res.json(result)
+      }
       next()
     }
 
