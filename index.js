@@ -46,7 +46,7 @@ function promisify (handler, shouldRespond) {
     function onFulfilled (result) {
       if (result instanceof Response) {
         if (!res.get(HEADER_CONTENT_TYPE)) {
-          res.set(HEADER_CONTENT_TYPE, res.contentType)
+          res.set(HEADER_CONTENT_TYPE, result.contentType)
         }
         return res.send(result.body)
       } else if (shouldRespond) {
