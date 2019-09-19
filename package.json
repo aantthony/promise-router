@@ -1,6 +1,6 @@
 {
   "name": "promised-router",
-  "version": "1.2.1",
+  "version": "1.3.0-beta.0",
   "description": "Express Router with promises",
   "main": "index.js",
   "types": "index.d.ts",
