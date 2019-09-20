@@ -50,7 +50,11 @@ function promisify (handler, shouldRespond) {
         }
         return res.send(result.body)
       } else if (shouldRespond) {
-        return res.json(result)
+        if (result !== undefined) {
+          return res.json(result)          
+        }
+        res.status(204).end();
+        return;
       }
       next()
     }
