@@ -2,18 +2,30 @@ import * as express from 'express';
 
 type WithBody<C, BodyType=unknown> = C & { body: BodyType }
 
-interface Handler<C> {
-  (req: C & express.Request, res: express.Response): Promise<any> | void;
+interface Handler<C,R=any> {
+  (req: C & express.Request, res: express.Response): Promise<R> | R | void;
 }
 
-export interface Router<C extends {}> extends express.RequestHandler {
-  use<T>(fn: Router<T> | Handler<C>): this;
-  use<T>(path: string, fn: Router<T> | Handler<C>): this;
-  param(name: string, handler: Handler<C>): this;
-  get(path: string, handler: Handler<C>): this;
-  put<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>>): this;
-  post<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>>): this;
-  delete<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>>): this;
+interface CanHandle<C> extends express.RequestHandler {
+  (req: C & express.Request, res: express.Response): void;
 }
 
-export default function createRouter<C>(): Router<C>;
+export interface Router<C extends {},R=any> extends CanHandle<C> {
+  use(fn: Handler<C,void>): this;
+
+  // Mount another router
+  use(router: CanHandle<C>): this;
+
+  // Mount a normal express app
+  use(expressApp: express.Router): this;
+
+  use<T>(path: string, fn: express.RequestHandler): this;
+
+  param(name: string, handler: Handler<C,R>): this;
+  get(path: string, handler: Handler<C,R>): this;
+  put<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>,R>): this;
+  post<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>,R>): this;
+  delete<T = {[key: string]: unknown}>(path: string, handler: Handler<WithBody<C, T>,R>): this;
+}
+
+export default function createRouter<C,T=any>(): Router<C,T>;
