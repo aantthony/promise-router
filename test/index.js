@@ -13,6 +13,8 @@ describe('promise-router', function () {
       if (req.query.x === 'fail') throw new Error('testing 123')
       return {x: req.query.x, y: 'abc'}
     })
+    .get('/nothing', function (req, res) {
+    })
     .get('/async', function (req, res) {
       return Promise.resolve({e: 'THIS_IS_A_TEST'})
     })
@@ -61,4 +63,13 @@ describe('promise-router', function () {
     .expect(400, {msg: 'Hello World!'})
     .end(done)
   })
+
+  it('by default should return 200 with {} body', function (done) {
+    request(app)
+    .get('/nothing')
+    .expect('Content-Type', /json/)
+    .expect(200, {})
+    .end(done)
+  })
+
 })

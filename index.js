@@ -53,7 +53,7 @@ function promisify (handler, shouldRespond) {
         if (result !== undefined) {
           return res.json(result)          
         }
-        res.status(204).end();
+        res.json({});
         return;
       }
       next()
